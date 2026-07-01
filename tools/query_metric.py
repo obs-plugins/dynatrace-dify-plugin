@@ -36,8 +36,15 @@ class QueryMetricTool(Tool):
             yield self.create_text_message(f"Dynatrace: {exc}")
             return
 
+        metric_results = payload.get("result", [])
+        if not metric_results:
+            yield self.create_text_message(
+                f"Sem dados para o metric selector: {metric_selector}"
+            )
+            return
+
         results = []
-        for metric in payload.get("result", []):
+        for metric in metric_results:
             series = []
             for d in metric.get("data", []):
                 ts = d.get("timestamps", [])[-MAX_POINTS_PER_SERIES:]

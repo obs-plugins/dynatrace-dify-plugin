@@ -23,6 +23,7 @@ class GetProblemDetailsTool(Tool):
             yield self.create_text_message(f"Dynatrace: {exc}")
             return
 
+        root_cause = p.get("rootCauseEntity") or {}
         details = {
             "problemId": p.get("problemId"),
             "displayId": p.get("displayId"),
@@ -32,13 +33,22 @@ class GetProblemDetailsTool(Tool):
             "impactLevel": p.get("impactLevel"),
             "startTime": p.get("startTime"),
             "endTime": p.get("endTime"),
-            "rootCauseEntity": (p.get("rootCauseEntity") or {}).get("name"),
+            "rootCauseEntity": {
+                "entityId": (root_cause.get("entityId") or {}).get("id"),
+                "name": root_cause.get("name"),
+            }
+            if root_cause
+            else None,
             "affectedEntities": [
                 {"name": e.get("name"), "type": (e.get("entityId") or {}).get("type")}
                 for e in p.get("affectedEntities", [])
             ],
             "impactedEntities": [
                 e.get("name") for e in p.get("impactedEntities", []) if e.get("name")
+            ],
+            "managementZones": [
+                {"id": mz.get("id"), "name": mz.get("name")}
+                for mz in p.get("managementZones", [])
             ],
             "evidenceCount": len((p.get("evidenceDetails") or {}).get("details", [])),
         }
