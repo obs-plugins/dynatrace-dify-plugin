@@ -1,9 +1,6 @@
-# TODO: Initialize the Dify Plugin SDK and register provider + tools
-# Entry point for the Dynatrace Dify Plugin
+from dify_plugin import Plugin, DifyPluginEnv
 
-from dify_plugin import DifyPluginEnv, Plugin
+plugin = Plugin(DifyPluginEnv(MAX_REQUEST_TIMEOUT=120))
 
-plugin = Plugin(DifyPluginEnv())
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     plugin.run()

@@ -1,4 +1,4 @@
-version: 0.0.1
+version: 0.1.0
 type: plugin
 author: obs-plugins
 name: dynatrace
@@ -8,25 +8,21 @@ description:
   en_US: Query active problems and metrics from a Dynatrace environment via the Dynatrace API v2.
 icon: icon.svg
 resource:
-  memory: 52428800
-permissions:
-  tools: {}
-  models: {}
-  endpoints: {}
-  storage: {}
+  memory: 268435456
+  permission:
+    tool:
+      enabled: true
+plugins:
+  tools:
+    - provider/dynatrace.yaml
 meta:
-  version: 0.0.1
+  version: 0.1.0
   arch:
     - amd64
     - arm64
   runner:
     language: python
-    version: '3.12'
-    entrypoint: main.py
-created_at: 2026-07-01
-contact_email: ''
-tags:
-  - observability
-  - monitoring
-  - dynatrace
-  - apm
+    version: "3.12"
+    entrypoint: main
+created_at: "2026-01-01T00:00:00Z"
+privacy: PRIVACY.md
