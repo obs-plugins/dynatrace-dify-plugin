@@ -1,0 +1,55 @@
+identity:
+  name: query_metric
+  author: obs-plugins
+  label:
+    en_US: Query Metric Timeseries
+description:
+  human:
+    en_US: Query a metric timeseries from Dynatrace Metrics API v2.
+  llm: Query metric timeseries data from Dynatrace. Specify metric selector, timeframe, resolution, and optional entity selector.
+parameters:
+  - name: metric_selector
+    type: string
+    required: true
+    label:
+      en_US: Metric Selector
+    human_description:
+      en_US: Dynatrace metric selector (e.g. builtin:host.cpu.usage).
+    llm_description: Dynatrace metric selector string (e.g. builtin:host.cpu.usage, builtin:service.response.time).
+    form: llm
+  - name: from
+    type: string
+    required: false
+    label:
+      en_US: From
+    human_description:
+      en_US: Start of the timeframe (e.g. now-1h, or ISO 8601 timestamp).
+    llm_description: Start of the timeframe, e.g. now-1h, now-2d, or ISO 8601.
+    form: llm
+  - name: to
+    type: string
+    required: false
+    label:
+      en_US: To
+    human_description:
+      en_US: End of the timeframe (default is now).
+    llm_description: End of the timeframe, e.g. now or ISO 8601.
+    form: llm
+  - name: resolution
+    type: string
+    required: false
+    label:
+      en_US: Resolution
+    human_description:
+      en_US: Desired resolution (e.g. 1m, 5m, 1h).
+    llm_description: Metric resolution, e.g. 1m, 5m, 1h.
+    form: llm
+  - name: entity_selector
+    type: string
+    required: false
+    label:
+      en_US: Entity Selector
+    human_description:
+      en_US: Dynatrace entity selector to scope the metric query.
+    llm_description: Optional entity selector to scope the metric query to specific entities.
+    form: llm
