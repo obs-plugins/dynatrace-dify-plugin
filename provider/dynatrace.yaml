@@ -29,7 +29,10 @@ credentials_for_provider:
     placeholder:
       en_US: dt0c01.XXXXXXXX...
     help:
-      en_US: API token with scopes problems.read, metrics.read, events.read.
+      en_US: >-
+        API token with scopes problems.read, metrics.read, events.read.
+        Credential validation calls GET /api/v2/metrics, so metrics.read
+        must be present or saving will fail with a 403.
     url: https://docs.dynatrace.com/docs/shortlink/api-authentication
 
 tools:

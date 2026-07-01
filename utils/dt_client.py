@@ -12,6 +12,10 @@ RETRYABLE_STATUS = {429, 500, 502, 503, 504}
 class DynatraceError(Exception):
     """Erro de nível aplicacional já com mensagem legível para o LLM."""
 
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message)
+        self.status_code = status_code
+
 
 class DynatraceClient:
     def __init__(self, base_url: str, api_token: str, timeout: int = DEFAULT_TIMEOUT):
@@ -46,13 +50,18 @@ class DynatraceClient:
                 continue
 
             if resp.status_code == 401:
-                raise DynatraceError("Token inválido (401).")
+                raise DynatraceError("Token inválido (401).", status_code=401)
             if resp.status_code == 403:
-                raise DynatraceError("Token sem scopes suficientes para este endpoint (403).")
+                raise DynatraceError(
+                    "Token sem scopes suficientes para este endpoint (403).", status_code=403
+                )
             if resp.status_code == 404:
-                raise DynatraceError("Recurso não encontrado (404).")
+                raise DynatraceError("Recurso não encontrado (404).", status_code=404)
             if resp.status_code >= 400:
-                raise DynatraceError(f"Erro Dynatrace {resp.status_code}: {resp.text[:300]}")
+                raise DynatraceError(
+                    f"Erro Dynatrace {resp.status_code}: {resp.text[:300]}",
+                    status_code=resp.status_code,
+                )
 
             return resp.json()
 

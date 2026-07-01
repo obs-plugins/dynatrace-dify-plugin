@@ -22,6 +22,10 @@ The **Dynatrace Plugin for Dify** is a Dify Plugin SDK extension that allows AI 
   - `metrics.read`
   - `events.read`
 
+> Credential validation calls `GET /api/v2/metrics` (a stable metadata endpoint
+> present on every tenant) to confirm the token is valid, so `metrics.read` must
+> be granted even if you only plan to use the problem-related tools.
+
 ## Configuration
 
 When adding this plugin to your Dify workspace, you will be prompted to configure the following provider credentials:
