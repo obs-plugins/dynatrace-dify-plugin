@@ -1,0 +1,37 @@
+identity:
+  name: get_problems
+  author: obs-plugins
+  label:
+    en_US: Get Active Problems
+description:
+  human:
+    en_US: Retrieve a list of active problems from the Dynatrace environment, with optional filters.
+  llm: Retrieve active problems from Dynatrace. Filter by status, impact, entity or management zone.
+parameters:
+  - name: problem_selector
+    type: string
+    required: false
+    label:
+      en_US: Problem Selector
+    human_description:
+      en_US: Dynatrace problem selector string to filter results (e.g. status("open")).
+    llm_description: Optional problem selector to filter Dynatrace problems (e.g. status("open"), impactLevel("APPLICATION")).
+    form: llm
+  - name: entity_selector
+    type: string
+    required: false
+    label:
+      en_US: Entity Selector
+    human_description:
+      en_US: Dynatrace entity selector to filter by affected entity.
+    llm_description: Optional entity selector to scope problems to a specific entity.
+    form: llm
+  - name: page_size
+    type: number
+    required: false
+    label:
+      en_US: Page Size
+    human_description:
+      en_US: Maximum number of problems to return (default 50, max 500).
+    llm_description: Maximum number of problems to return.
+    form: llm
