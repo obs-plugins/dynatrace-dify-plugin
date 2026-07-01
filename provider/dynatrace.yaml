@@ -4,24 +4,39 @@ identity:
   label:
     en_US: Dynatrace
   description:
-    en_US: Dynatrace observability platform provider. Connects to a Dynatrace SaaS or Managed environment via the Dynatrace API v2.
+    en_US: Query active problems and metrics from a Dynatrace environment via the Dynatrace API v2.
   icon: icon.svg
+  tags:
+    - utilities
+
 credentials_for_provider:
-  environment_url:
+  dynatrace_base_url:
     type: text-input
     required: true
     label:
       en_US: Environment URL
     placeholder:
-      en_US: 'https://abc12345.live.dynatrace.com'
+      en_US: https://abc12345.live.dynatrace.com
     help:
-      en_US: The base URL of your Dynatrace environment, without trailing slash.
-  api_token:
+      en_US: SaaS tenant URL (https://{id}.live.dynatrace.com) or Managed ActiveGate base (https://{host}/e/{env-id}). No trailing /api.
+    url: https://docs.dynatrace.com/docs/shortlink/api-authentication
+
+  dynatrace_api_token:
     type: secret-input
     required: true
     label:
       en_US: API Token
     placeholder:
-      en_US: 'dt0c01.XXXXXXXX...'
+      en_US: dt0c01.XXXXXXXX...
     help:
-      en_US: A Dynatrace API token with scopes problems.read, metrics.read, events.read.
+      en_US: API token with scopes problems.read, metrics.read, events.read.
+    url: https://docs.dynatrace.com/docs/shortlink/api-authentication
+
+tools:
+  - tools/get_problems.yaml
+  - tools/get_problem_details.yaml
+  - tools/query_metric.yaml
+
+extra:
+  python:
+    source: provider/dynatrace.py
