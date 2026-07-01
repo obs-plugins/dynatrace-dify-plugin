@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Dynatrace Dify Plugin Icon -->
   <rect width="64" height="64" rx="12" fill="#1496FF"/>
-  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
-        font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white">DT</text>
+  <path d="M32 12 L52 42 H12 Z" fill="#fff"/>
+  <circle cx="32" cy="38" r="5" fill="#1496FF"/>
 </svg>

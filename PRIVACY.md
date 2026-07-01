@@ -1,19 +1,22 @@
 # Privacy Policy
 
-## Data Handling
+This plugin connects to a Dynatrace environment specified by the user via the
+Environment URL and API Token credentials.
 
-The Dynatrace Plugin for Dify connects to your own Dynatrace environment using credentials that you provide. This plugin does **not** collect, store, or transmit any personal data to third parties.
+## Data handled
 
-## Credentials
+- **Credentials**: the Dynatrace Environment URL and API Token are stored and
+  encrypted by the Dify platform. They are used only to authenticate requests to
+  the Dynatrace API v2 and are never sent to any third party.
+- **Query data**: problem and metric data returned by the Dynatrace API is passed
+  back to the Dify application that invoked the tool. No data is retained by the
+  plugin between invocations.
 
-- Your Dynatrace Environment URL and API Token are stored securely within your Dify workspace and are used solely to authenticate API requests to your Dynatrace environment.
-- Credentials are never logged or shared outside your Dify instance.
+## Data sharing
 
-## API Requests
-
-- All API requests are made directly from your Dify environment to your Dynatrace environment.
-- No data passes through any third-party servers maintained by the plugin authors.
+This plugin does not collect, store, or transmit any data to the plugin author or
+any external service other than the user-configured Dynatrace environment.
 
 ## Contact
 
-If you have any privacy-related questions, please open an issue in this repository.
+For questions, open an issue on the plugin repository.
