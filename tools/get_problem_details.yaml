@@ -1,12 +1,12 @@
 identity:
-  name: get_problem_details
+  name: dynatrace_get_problem_details
   author: obs-plugins
   label:
     en_US: Get Problem Details
 description:
   human:
-    en_US: Get full details of a specific Dynatrace problem by its Problem ID.
-  llm: Retrieve full details of a Dynatrace problem by Problem ID, including root cause, impacted entities, and timeline.
+    en_US: Get full details of a single Dynatrace problem by its ID, including root cause and affected entities.
+  llm: Retrieves detailed information about one Dynatrace problem given its problemId, including root cause entity, affected entities and status. Use after listing problems to drill into a specific incident.
 parameters:
   - name: problem_id
     type: string
@@ -14,6 +14,9 @@ parameters:
     label:
       en_US: Problem ID
     human_description:
-      en_US: The Dynatrace Problem ID (e.g. P-12345678).
-    llm_description: The Dynatrace Problem ID to retrieve details for (e.g. P-12345678).
+      en_US: The problemId (not the display ID) returned by Get Problems.
+    llm_description: The Dynatrace problemId to fetch. This is the long internal id (e.g. -1234..._169..V2), not the P-xxxx display id.
     form: llm
+extra:
+  python:
+    source: tools/get_problem_details.py

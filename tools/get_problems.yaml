@@ -1,37 +1,82 @@
 identity:
-  name: get_problems
+  name: dynatrace_get_problems
   author: obs-plugins
   label:
-    en_US: Get Active Problems
+    en_US: Get Problems
 description:
   human:
-    en_US: Retrieve a list of active problems from the Dynatrace environment, with optional filters.
-  llm: Retrieve active problems from Dynatrace. Filter by status, impact, entity or management zone.
+    en_US: List active or historical problems from Dynatrace, with optional filtering by status, severity and time window.
+  llm: Retrieves a list of Dynatrace problems (incidents). Use to check what is currently broken or degraded. Supports filtering by status (OPEN/CLOSED), severity level, and a time window.
 parameters:
-  - name: problem_selector
+  - name: from
     type: string
     required: false
+    default: now-2h
     label:
-      en_US: Problem Selector
+      en_US: Time window (from)
     human_description:
-      en_US: Dynatrace problem selector string to filter results (e.g. status("open")).
-    llm_description: Optional problem selector to filter Dynatrace problems (e.g. status("open"), impactLevel("APPLICATION")).
+      en_US: Relative or absolute start time, e.g. now-2h, now-24h, or a timestamp.
+    llm_description: Start of the time window in Dynatrace format (e.g. now-2h, now-24h, now-7d). Defaults to now-2h.
     form: llm
-  - name: entity_selector
-    type: string
+  - name: status
+    type: select
     required: false
     label:
-      en_US: Entity Selector
+      en_US: Status
+    options:
+      - value: OPEN
+        label:
+          en_US: Open
+      - value: CLOSED
+        label:
+          en_US: Closed
     human_description:
-      en_US: Dynatrace entity selector to filter by affected entity.
-    llm_description: Optional entity selector to scope problems to a specific entity.
+      en_US: Filter by problem status.
+    llm_description: Filter problems by status. OPEN returns only active problems.
+    form: llm
+  - name: severity
+    type: select
+    required: false
+    label:
+      en_US: Severity level
+    options:
+      - value: AVAILABILITY
+        label:
+          en_US: Availability
+      - value: ERROR
+        label:
+          en_US: Error
+      - value: PERFORMANCE
+        label:
+          en_US: Performance
+      - value: RESOURCE_CONTENTION
+        label:
+          en_US: Resource contention
+      - value: CUSTOM_ALERT
+        label:
+          en_US: Custom alert
+      - value: MONITORING_UNAVAILABLE
+        label:
+          en_US: Monitoring unavailable
+      - value: INFO
+        label:
+          en_US: Info
+    human_description:
+      en_US: Filter by severity level.
+    llm_description: Filter problems by Dynatrace severity level.
     form: llm
   - name: page_size
     type: number
     required: false
+    default: 50
+    min: 1
+    max: 500
     label:
-      en_US: Page Size
+      en_US: Max results
     human_description:
-      en_US: Maximum number of problems to return (default 50, max 500).
-    llm_description: Maximum number of problems to return.
+      en_US: Maximum number of problems to return (1-500).
+    llm_description: Maximum number of problems to return. Keep low for LLM consumption.
     form: llm
+extra:
+  python:
+    source: tools/get_problems.py

@@ -1,55 +1,60 @@
 identity:
-  name: query_metric
+  name: dynatrace_query_metric
   author: obs-plugins
   label:
-    en_US: Query Metric Timeseries
+    en_US: Query Metric
 description:
   human:
-    en_US: Query a metric timeseries from Dynatrace Metrics API v2.
-  llm: Query metric timeseries data from Dynatrace. Specify metric selector, timeframe, resolution, and optional entity selector.
+    en_US: Query a Dynatrace metric timeseries by metric selector, with time window and resolution.
+  llm: Queries a Dynatrace metric timeseries. Provide a metricSelector (e.g. builtin:service.response.time:avg). Use to inspect performance/health metrics over a time window.
 parameters:
   - name: metric_selector
     type: string
     required: true
     label:
-      en_US: Metric Selector
+      en_US: Metric selector
     human_description:
-      en_US: Dynatrace metric selector (e.g. builtin:host.cpu.usage).
-    llm_description: Dynatrace metric selector string (e.g. builtin:host.cpu.usage, builtin:service.response.time).
+      en_US: Dynatrace metric selector, e.g. builtin:service.response.time:avg
+    llm_description: The Dynatrace metricSelector, including aggregation, e.g. "builtin:service.response.time:avg" or "builtin:host.cpu.usage:max".
     form: llm
   - name: from
     type: string
     required: false
+    default: now-1h
     label:
-      en_US: From
+      en_US: Time window (from)
     human_description:
-      en_US: Start of the timeframe (e.g. now-1h, or ISO 8601 timestamp).
-    llm_description: Start of the timeframe, e.g. now-1h, now-2d, or ISO 8601.
+      en_US: Start time, e.g. now-1h, now-24h.
+    llm_description: Start of the time window (e.g. now-1h, now-6h, now-24h). Defaults to now-1h.
     form: llm
   - name: to
     type: string
     required: false
     label:
-      en_US: To
+      en_US: Time window (to)
     human_description:
-      en_US: End of the timeframe (default is now).
-    llm_description: End of the timeframe, e.g. now or ISO 8601.
+      en_US: End time. Defaults to now if omitted.
+    llm_description: End of the time window. Omit for now.
     form: llm
   - name: resolution
     type: string
     required: false
+    default: 1m
     label:
       en_US: Resolution
     human_description:
-      en_US: Desired resolution (e.g. 1m, 5m, 1h).
-    llm_description: Metric resolution, e.g. 1m, 5m, 1h.
+      en_US: Timeseries resolution, e.g. 1m, 5m, 1h.
+    llm_description: Resolution of the timeseries (e.g. 1m, 5m, 1h). Coarser resolution over long windows keeps payloads small.
     form: llm
   - name: entity_selector
     type: string
     required: false
     label:
-      en_US: Entity Selector
+      en_US: Entity selector
     human_description:
-      en_US: Dynatrace entity selector to scope the metric query.
-    llm_description: Optional entity selector to scope the metric query to specific entities.
+      en_US: Optional entitySelector to scope the metric, e.g. type("SERVICE").
+    llm_description: Optional Dynatrace entitySelector to filter which entities the metric is aggregated over.
     form: llm
+extra:
+  python:
+    source: tools/query_metric.py
