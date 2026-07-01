@@ -1,0 +1,27 @@
+identity:
+  author: obs-plugins
+  name: dynatrace
+  label:
+    en_US: Dynatrace
+  description:
+    en_US: Dynatrace observability platform provider. Connects to a Dynatrace SaaS or Managed environment via the Dynatrace API v2.
+  icon: icon.svg
+credentials_for_provider:
+  environment_url:
+    type: text-input
+    required: true
+    label:
+      en_US: Environment URL
+    placeholder:
+      en_US: 'https://abc12345.live.dynatrace.com'
+    help:
+      en_US: The base URL of your Dynatrace environment, without trailing slash.
+  api_token:
+    type: secret-input
+    required: true
+    label:
+      en_US: API Token
+    placeholder:
+      en_US: 'dt0c01.XXXXXXXX...'
+    help:
+      en_US: A Dynatrace API token with scopes problems.read, metrics.read, events.read.
