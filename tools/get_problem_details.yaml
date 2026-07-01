@@ -1,0 +1,19 @@
+identity:
+  name: get_problem_details
+  author: obs-plugins
+  label:
+    en_US: Get Problem Details
+description:
+  human:
+    en_US: Get full details of a specific Dynatrace problem by its Problem ID.
+  llm: Retrieve full details of a Dynatrace problem by Problem ID, including root cause, impacted entities, and timeline.
+parameters:
+  - name: problem_id
+    type: string
+    required: true
+    label:
+      en_US: Problem ID
+    human_description:
+      en_US: The Dynatrace Problem ID (e.g. P-12345678).
+    llm_description: The Dynatrace Problem ID to retrieve details for (e.g. P-12345678).
+    form: llm
