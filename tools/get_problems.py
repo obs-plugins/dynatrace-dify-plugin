@@ -39,10 +39,16 @@ class GetProblemsTool(Tool):
             params["problemSelector"] = ",".join(selectors)
 
         try:
-            problems = client.paginate(
-                "problems", params, items_key="problems", max_items=page_size
-            )
+            # Pedido single-page deliberado: o output vai para um LLM (contexto limitado),
+            # por isso uma página até page_size (máx. 500) chega. Não seguimos nextPageKey.
+            payload = client.get("problems", params)
+            problems = payload.get("problems", [])
         except DynatraceError as exc:
+            if exc.status_code == 403:
+                yield self.create_text_message(
+                    "Dynatrace: token sem o scope problems.read (403)."
+                )
+                return
             yield self.create_text_message(f"Dynatrace: {exc}")
             return
 
