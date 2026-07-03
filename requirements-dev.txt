@@ -1,0 +1,4 @@
+# Dev-only deps (testes). NÃO fazem parte do runtime do plugin (ver requirements.txt).
+# O smoke-test importa os módulos do plugin, por isso instala também requirements.txt.
+pytest>=8.0.0
+PyYAML>=6.0
