@@ -5,7 +5,7 @@ identity:
     en_US: Get Problems
 description:
   human:
-    en_US: List active or historical problems from Dynatrace, with optional filtering by status, severity and time window.
+    en_US: List active or historical problems from Dynatrace, with optional filtering by status, severity and time window. Requires the problems.read scope.
   llm: Retrieves a list of Dynatrace problems (incidents). Use to check what is currently broken or degraded. Supports filtering by status (OPEN/CLOSED), severity level, and a time window.
 parameters:
   - name: from

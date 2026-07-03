@@ -50,13 +50,20 @@ class DynatraceClient:
                 continue
 
             if resp.status_code == 401:
-                raise DynatraceError("Token inválido (401).", status_code=401)
+                raise DynatraceError("Token inválido ou expirado (401).", status_code=401)
             if resp.status_code == 403:
                 raise DynatraceError(
                     "Token sem scopes suficientes para este endpoint (403).", status_code=403
                 )
             if resp.status_code == 404:
                 raise DynatraceError("Recurso não encontrado (404).", status_code=404)
+            if resp.status_code in RETRYABLE_STATUS:
+                raise DynatraceError(
+                    f"Dynatrace API indisponível temporariamente ({resp.status_code}). "
+                    "O plugin já tentou novamente automaticamente; tenta de novo dentro "
+                    "de instantes.",
+                    status_code=resp.status_code,
+                )
             if resp.status_code >= 400:
                 raise DynatraceError(
                     f"Erro Dynatrace {resp.status_code}: {resp.text[:300]}",

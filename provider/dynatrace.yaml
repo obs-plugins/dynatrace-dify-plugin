@@ -30,9 +30,10 @@ credentials_for_provider:
       en_US: dt0c01.XXXXXXXX...
     help:
       en_US: >-
-        API token with scopes problems.read, metrics.read, events.read.
-        Credential validation calls GET /api/v2/metrics, so metrics.read
-        must be present or saving will fail with a 403.
+        API token scopes: metrics.read is required for both credential
+        validation (GET /api/v2/metrics) and the Query Metric tool.
+        problems.read is required only for Get Problems and Get Problem
+        Details. Saving fails with a 403 if metrics.read is missing.
     url: https://docs.dynatrace.com/docs/shortlink/api-authentication
 
 tools:

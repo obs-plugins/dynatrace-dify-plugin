@@ -5,7 +5,7 @@ identity:
     en_US: Query Metric
 description:
   human:
-    en_US: Query a Dynatrace metric timeseries by metric selector, with time window and resolution.
+    en_US: Query a Dynatrace metric timeseries by metric selector, with time window and resolution. Requires the metrics.read scope.
   llm: Queries a Dynatrace metric timeseries. Provide a metricSelector (e.g. builtin:service.response.time:avg). Use to inspect performance/health metrics over a time window.
 parameters:
   - name: metric_selector

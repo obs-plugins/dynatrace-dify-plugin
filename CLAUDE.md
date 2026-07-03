@@ -25,7 +25,10 @@ paginação `nextPageKey` com cap. `metrics/query` NÃO pagina (deprecated) → 
 
 API Token (não OAuth). Duas credenciais no provider:
 - `dynatrace_base_url` — campo livre (SaaS `https://{id}.live.dynatrace.com` ou Managed `.../e/{env-id}`).
-- `dynatrace_api_token` — scopes `problems.read`, `metrics.read`, `events.read`.
+- `dynatrace_api_token` — matriz de scopes por uso:
+  - `metrics.read` — obrigatório na validação inicial (`GET /api/v2/metrics`) e em `dynatrace_query_metric`.
+  - `problems.read` — obrigatório em `dynatrace_get_problems` e `dynatrace_get_problem_details`.
+  - `events.read` não é usado por nenhum tool do MVP atual — não exigir nem documentar como obrigatório.
 
 Ambiente de teste: **SaaS**. Managed é suportado por design (base_url livre) mas ainda não validado.
 

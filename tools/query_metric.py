@@ -33,6 +33,11 @@ class QueryMetricTool(Tool):
             # metrics/query NÃO pagina por nextPageKey (deprecated) -> pedido único
             payload = client.get("metrics/query", params)
         except DynatraceError as exc:
+            if exc.status_code == 403:
+                yield self.create_text_message(
+                    "Dynatrace: token sem o scope metrics.read (403)."
+                )
+                return
             yield self.create_text_message(f"Dynatrace: {exc}")
             return
 

@@ -20,6 +20,11 @@ class GetProblemDetailsTool(Tool):
         try:
             p = client.get(f"problems/{problem_id}")
         except DynatraceError as exc:
+            if exc.status_code == 403:
+                yield self.create_text_message(
+                    "Dynatrace: token sem o scope problems.read (403)."
+                )
+                return
             yield self.create_text_message(f"Dynatrace: {exc}")
             return
 

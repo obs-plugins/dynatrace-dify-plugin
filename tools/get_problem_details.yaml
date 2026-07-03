@@ -5,7 +5,7 @@ identity:
     en_US: Get Problem Details
 description:
   human:
-    en_US: Get full details of a single Dynatrace problem by its ID, including root cause and affected entities.
+    en_US: Get full details of a single Dynatrace problem by its ID, including root cause and affected entities. Requires the problems.read scope.
   llm: Retrieves detailed information about one Dynatrace problem given its problemId, including root cause entity, affected entities and status. Use after listing problems to drill into a specific incident.
 parameters:
   - name: problem_id
