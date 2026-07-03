@@ -19,16 +19,7 @@ The **Dynatrace Plugin for Dify** is a Dify Plugin SDK extension that allows AI 
 
 - **Dify** v1.0.0 or higher
 - A **Dynatrace SaaS or Managed** environment (e.g. `https://abc12345.live.dynatrace.com`)
-- A Dynatrace **API Token** with the scopes required by the tools you plan to use:
-
-  | Scope | Required for |
-  |-------|--------------|
-  | `metrics.read` | Credential validation (`GET /api/v2/metrics`) **and** Query Metric |
-  | `problems.read` | Get Problems **and** Get Problem Details |
-
-> Credential validation calls `GET /api/v2/metrics` (a stable metadata endpoint
-> present on every tenant) to confirm the token is valid, so `metrics.read` must
-> be granted even if you only plan to use the problem-related tools.
+- A Dynatrace **API Token** — see [Required Token Scopes](#required-token-scopes) below for which scopes to grant.
 
 ## Configuration
 
@@ -40,6 +31,50 @@ When adding this plugin to your Dify workspace, you will be prompted to configur
 | **API Token** | A Dynatrace API token with the required scopes. | `dt0c01.XXXXXXXX...` |
 
 These credentials are stored securely in Dify and are never exposed to end users.
+
+## Required Token Scopes
+
+| Tool | Endpoint | Required scope |
+|---|---|---|
+| Get Problems | GET /api/v2/problems | problems.read |
+| Get Problem Details | GET /api/v2/problems/{id} | problems.read |
+| Query Metric | GET /api/v2/metrics/query | metrics.read |
+| Credential validation (on install) | GET /api/v2/metrics | metrics.read |
+
+`metrics.read` is always required, even if you only plan to use the
+Problems tools — it's used to validate the token when you save your
+credentials in the Dify provider settings. Add `problems.read` only if
+you plan to use Get Problems or Get Problem Details. No token needs
+`events.read`; no tool in this plugin calls the Events API.
+
+To generate a token: in Dynatrace, go to **Settings -> Access Tokens ->
+Generate new token**, name it, and select the scopes from the table
+above based on which tools you plan to use.
+
+## Using tools in a Dify workflow
+
+This plugin's tools (Get Problems, Get Problem Details, Query Metric)
+can be used in a Dify workflow in two ways:
+
+1. **As a workflow node** — drag the tool directly into the canvas
+   graph (it appears in the node palette like any built-in node, e.g.
+   next to Code or HTTP Request). It runs deterministically at that
+   step, with fixed or variable-mapped inputs. No Agentic Strategy
+   required. This is the simplest and most predictable way to use the
+   plugin, and the recommended starting point.
+
+2. **Attached to an Agent node** — the LLM decides at runtime whether
+   and how to call each tool, based on natural-language input. This
+   requires installing an Agentic Strategy plugin first (e.g. ReAct),
+   available under **Integrations -> Tools -> Agent Strategy** in
+   Dify (it's a sub-tab under Tools, alongside Tool Plugin, MCP,
+   Workflow as Tool and Swagger API as Tool). Use this for
+   conversational flows where the exact query isn't known in advance.
+
+> Note: attaching this plugin's tools to a plain **LLM node** (not
+> Agent) does nothing — the model has no way to actually invoke the
+> tool and may fabricate a plausible-looking but fake response instead
+> of calling it. Always use a workflow Tool node or an Agent node.
 
 ## Troubleshooting
 
